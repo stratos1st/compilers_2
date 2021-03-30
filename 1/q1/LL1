@@ -1,0 +1,44 @@
+eval     = expr
+expr     = term exprtail
+exprtail = + term exprtail
+         | - term exprtail
+         | e
+term     = factor termtail
+termtail = ** factor termtail
+         | e
+factor   = num
+         | (expr)
+num      = 0...9 num
+         | e
+
+----------------------First Set
+Non-Terminal Symbol 	First Set
+Exprtail 	              +, -, ε
+Termtail 	              **, ε
+Factor 	                  number, (
+Term 	                    number, (
+Expr 	                    number, (
+
+
+
+----------------------Follow Set
+Non-Terminal Symbol 	   Follow Set
+Expr 	                    $, )
+Exprtail                  	$, )
+Term 	                    +, -, $, )
+Termtail 	                +, -, $, )
+Factor 	                  **, +, -, $, )
+
+
+
+----------------------First+ Set
+# 	Expression 	                      Predict
+1 	Expr → Term Exprtail 	             number, (
+2 	Exprtail → + Term Exprtail           	+
+3 	Exprtail → - Term Exprtail 	          -
+4 	Exprtail → ε 	                       $, )
+5 	Term → Factor Termtail 	            number, (
+6 	Termtail → ** Factor Termtail           	**
+8 	Termtail → ε 	                       +, -, $, )
+9 	Factor → number 	                  number
+10 	Factor → ( Expr ) 	                   (
