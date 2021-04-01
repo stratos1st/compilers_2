@@ -1,2 +1,1 @@
-javac calculator.java ParseError.java
-java calculator
+compilers 2021

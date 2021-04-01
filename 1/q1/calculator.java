@@ -101,8 +101,8 @@ public class calculator {
       System.err.println(e.getMessage());
     }
     catch(ParseError err){
-      err.printStackTrace(System.err);
-      // System.err.println(err.getMessage());
+      // err.printStackTrace(System.err);
+      System.err.println(err.getMessage());
     }
   }
 
