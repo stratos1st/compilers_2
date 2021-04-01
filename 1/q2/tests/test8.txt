@@ -1,0 +1,22 @@
+    name() {
+        "John"
+    }
+
+    repeat(x) {
+        x + x
+    }
+
+    cond_repeat(c, x) {
+		"a"+
+        if (c prefix "yes")
+            if("yes" prefix c)
+                repeat(x)
+            else
+                x
+        else
+            x
+    }
+
+    cond_repeat("yes"+name(),"yes"+name())
+    cond_repeat("no", "yes"+name())
+cond_repeat("yes"+name(), "yes")

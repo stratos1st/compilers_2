@@ -1,0 +1,7 @@
+foo(x){
+	x
+}
+
+"yo"
+foo("yo")
+foo(if(if ("y" prefix "yes") "a" + "y" else "z" + foo("yo") prefix "ayyoou") "yo" else "ya")

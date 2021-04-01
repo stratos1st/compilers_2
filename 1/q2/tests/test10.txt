@@ -1,0 +1,17 @@
+    name() {
+        "John"
+    }
+
+    repeat(x) {
+        x + x
+    }
+
+if (name() prefix "yes")
+if(name() prefix "no")
+    repeat("asda")
+else
+    "aa"
+else
+"001kal"
+
+

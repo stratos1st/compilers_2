@@ -1,0 +1,5 @@
+ "ab" +  if ("n" prefix "n" + "yo")
+	"cd"
+else
+	"ef"
+

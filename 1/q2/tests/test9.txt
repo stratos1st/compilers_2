@@ -1,0 +1,19 @@
+    findLangType(langName) {
+        if ("Java" prefix langName)
+            if(langName prefix "Java")
+                "Static"
+            else
+                if( "script" prefix  langName)
+                    langName
+                else
+                    findLangType(langName)
+        else
+            if ( "script" prefix  langName)
+                "Probably Dynamic"
+            else
+                findLangType("asda")
+    }
+
+    findLangType("Java")
+	"k"+"asda"
+	"asdafdfdssfs"

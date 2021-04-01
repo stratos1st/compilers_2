@@ -1,0 +1,9 @@
+ "ab" +  if ("m" prefix "n" + "yo")
+	"cd"
+else
+	"la"
++
+if ( "ab" prefix "baba")
+	"la"
+else
+	"ola"

@@ -1,0 +1,10 @@
+
+kkk(x,y){
+if (x prefix y)
+  "prefix"
+else
+  "no" + "prefix"
+}
+
+kkk("a","aa")
+kkk("s","aa")

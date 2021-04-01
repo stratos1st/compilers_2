@@ -21,7 +21,7 @@ import java_cup.runtime.*;
    generated parser.
 */
 %cup
-%unicode 
+%unicode
 
 /*
   Declarations
@@ -69,7 +69,7 @@ paren_brace = [)]{WhiteSpace}*[{]
  "if"			{ return symbol(sym.IF_STATE); }
  "else"			{ return symbol(sym.ELSE_STATE); }
  "prefix"		{ return symbol(sym.PREF_SOPP); } //SINGLE OPPERATOR
- "reverse"		{ return symbol(sym.REVE_SOPP); } //SINGLE OPPERATOR
+ "suffix"		{ return symbol(sym.SUFF_SOPP); } //SINGLE OPPERATOR
  \"             { stringBuffer.setLength(0); yybegin(STRING); }
  {identifiers} { return symbol(sym.IDENTIFIER, yytext()); }
  {WhiteSpace}   { /* just skip what was found, do nothing */ }

@@ -1,0 +1,123 @@
+/* Simple +/-/* expression language; parser evaluates constant expressions on the fly*/
+/**
+ *  Package and Import Specifications
+ */
+import java_cup.runtime.*;
+
+/**
+ *  Usercode Components
+ */
+parser code {:
+    // Connect this parser to a scanner!
+    Scanner s;
+    Parser(Scanner s){ this.s=s; }
+:}
+
+/* define how to connect to the scanner! */
+scan with {: return s.next_token(); :};
+
+/**
+ *  Symbol Lists
+ */
+
+/* Terminals (tokens returned by the scanner). */
+terminal           PLUS_DOPP, LPAREN, RPAREN, SEPARATOR, PAREN_BRACE, RBRACE, IF_STATE, ELSE_STATE, PREF_SOPP, SUFF_SOPP;
+terminal String     STRING_LITERAL, IDENTIFIER;
+
+/*  Non terminals */
+non terminal String starting, declarations, declaration, ids, body_func, plus_func, if_func, suffix_func, prefix_func, call_func, arguments_call_func, main_prints, body_main, plus_main, if_main, suffix_main, prefix_main, call_main, arguments_call_main;
+
+/**
+ *  Precedence Declarations
+ */
+precedence left PLUS_DOPP;
+
+/**
+ *  The Grammar Rules
+ */
+//----------------------------------------------------------- STARTING --------------------------------------------------------------------------------------
+starting 			::=		declarations:decs main_prints:prints					{: System.out.println("public class Main {\n \tpublic static void main(String[] args){\n" + prints + "\t}\n" + decs + "}");	:}
+					|		declarations:decs										{: System.out.println("public class Main {\n \tpublic static void main(String[] args){}" + decs + "}\n");	:}
+					|		main_prints:prints										{: System.out.println("public class Main {\n \tpublic static void main(String[] args){\n" + prints + "\t}\n}\n");	:}
+;
+
+//----------------------------------------------------------- FUNCTIONS --------------------------------------------------------------------------------------
+
+declarations   		::=     declarations:decs declaration:dec 						{: RESULT = decs + "\tpublic static String " + dec; :}
+					|		declaration:dec											{: RESULT = "\tpublic static String " + dec; :}
+;
+
+declaration 			::=		IDENTIFIER:id LPAREN ids:ids PAREN_BRACE body_func:bd RBRACE	{: RESULT = id + "(" + ids + "){\n\t\treturn " + bd + ";\n\t}\n";	:}
+					|		IDENTIFIER:id LPAREN PAREN_BRACE body_func:bd RBRACE			{: RESULT = id + "(){\n\t\treturn " + bd + ";\n\t}\n";	:}
+;
+
+ids 				::= 	ids:ids SEPARATOR IDENTIFIER:id							{: RESULT = ids + ", String " + id;	:}
+					|		IDENTIFIER:id											{: RESULT = "String " + id;	:}
+;
+
+body_func			::=		IDENTIFIER:id 											{: RESULT = id;	:}
+					|		STRING_LITERAL:str										{: RESULT = "\"" + str + "\""; :}
+					|		call_func:call											{: RESULT = call; :}
+					|		if_func:iff												{: RESULT = iff; :}
+					|		plus_func:plus											{: RESULT = plus; :}
+;
+
+plus_func			::= 	body_func:bd PLUS_DOPP IDENTIFIER:id 					{: RESULT = bd + "+" + id;	:}
+					|		body_func:bd PLUS_DOPP STRING_LITERAL:str				{: RESULT = bd + "+\"" + str + "\"";	:}
+					|		body_func:bd PLUS_DOPP call_func:call					{: RESULT = bd + "+" + call;	:}
+					|		body_func:bd PLUS_DOPP if_func:iff						{: RESULT = bd + "+" + iff;	:}
+;
+
+if_func				::=		IF_STATE LPAREN body_func:bd prefix_func:pref RPAREN body_func:bd1  ELSE_STATE  body_func:bd2 			{: RESULT = "(" + pref + "(" + bd + ")) ? (" + bd1 + ") : (" + bd2 + "))";	:}// mpori na exi parapanisia paren8esi
+					|		IF_STATE LPAREN body_func:bd suffix_func:suff RPAREN body_func:bd1  ELSE_STATE  body_func:bd2 			{: RESULT = "(" + suff + "(" + bd + ")) ? (" + bd1 + ") : (" + bd2 + "))";	:}// mpori na exi parapanisia paren8esi
+;
+
+suffix_func 			::=		SUFF_SOPP body_func:bd									{: RESULT = "(" + bd + ").endsWith("; :}
+;
+
+prefix_func			::=		PREF_SOPP body_func:bd									{: RESULT = "(" + bd + ").startsWith(";	:}
+;
+
+call_func 			::= 	IDENTIFIER:id LPAREN arguments_call_func:args RPAREN	{: RESULT = id + "( " + args + " )" ; :}
+					|		IDENTIFIER:id LPAREN RPAREN								{: RESULT = id + "()"; :}
+;
+
+arguments_call_func		::=		arguments_call_func:args SEPARATOR body_func:bd 		{: RESULT = args + ", " + bd; :}
+					|		body_func:bd											{: RESULT = bd; :}
+;
+
+
+//----------------------------------------------------------- MAIN --------------------------------------------------------------------------------------
+
+main_prints			::=		main_prints:prints body_main:bd 						{: RESULT = prints + "\t\tSystem.out.println(" + bd + ");\n"; :}
+					|		body_main:bd											{: RESULT = "\t\tSystem.out.println(" + bd + ");\n"; :}
+;
+
+body_main			::=		STRING_LITERAL:str										{: RESULT = "\"" + str + "\""; :}
+					|		call_main:call											{: RESULT = call; :}
+					|		if_main:iff												{: RESULT = iff; :}
+					|		plus_main:plus											{: RESULT = plus; :}
+;
+
+plus_main			::= 	body_main:bd PLUS_DOPP STRING_LITERAL:str				{: RESULT = bd + "+" + "\"" + str + "\""; :}
+					|		body_main:bd PLUS_DOPP call_main:call					{: RESULT = bd + "+" + call; :}
+					|		body_main:bd PLUS_DOPP if_main:iff						{: RESULT = bd + "+" + iff;	:}
+;
+
+if_main			::=		IF_STATE LPAREN body_main:bd prefix_main:pref RPAREN body_main:bd1  ELSE_STATE  body_main:bd2 		{: RESULT = "(" + pref + "(" + bd + ")) ? (" + bd1 + ") : (" + bd2 + "))"; :}// mpori na exi parapanisia paren8esi
+					|	IF_STATE LPAREN body_main:bd suffix_main:suff RPAREN body_main:bd1  ELSE_STATE  body_main:bd2 		{: RESULT = "(" + suff + "(" + bd + ")) ? (" + bd1 + ") : (" + bd2 + "))"; :}// mpori na exi parapanisia paren8esi
+;
+
+suffix_main 			::=		SUFF_SOPP body_main:bd									{: RESULT = "(" + bd + ").endsWith("; :}
+;
+
+prefix_main			::=		PREF_SOPP body_main:bd									{: RESULT = "(" + bd + ").startsWith(";	:}
+;
+
+call_main 			::= 	IDENTIFIER:id LPAREN arguments_call_main:args RPAREN	{: RESULT = id + "( " + args + " )" ; :}
+					|		IDENTIFIER:id LPAREN RPAREN								{: RESULT = id + "()"; :}
+;
+
+arguments_call_main		::=		arguments_call_main:args SEPARATOR body_main:bd 		{: RESULT = args + ", " + bd; :}
+					|		body_main:bd 											{: RESULT = bd; :}
+;
