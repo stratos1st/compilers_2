@@ -1,0 +1,8 @@
+*.class
+*~
+JavaCharStream.java
+Mini*
+Token*
+ParseException.java
+./syntaxtree
+./visitor
