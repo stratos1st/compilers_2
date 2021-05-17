@@ -1,0 +1,7 @@
+A.data : 0
+A.get : 0
+
+B.set : 8
+
+C.reset : 16
+
