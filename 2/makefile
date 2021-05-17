@@ -27,13 +27,14 @@ run_offsets:# prepi na iparxoun idi i fakeli gia na bali ta arxia!!
 	java Main ./minijava-examples-new/minijava-extra/*.java >> outs.out 2>/dev/null
 	java Main ./minijava-examples-new/bazio/*.java >> outs.out 2>/dev/null
 	./script1.sh
+	rename -f 's/\.java/\.txt/' ./my_offsets/minijava-examples-new/*.java
+	rename -f 's/\.java/\.txt/' ./my_offsets/minijava-examples-new/minijava-extra/*.java
+	rename -f 's/\.java/\.out/' ./my_offsets/minijava-examples-new/bazio/*.java
 	rm outs.out
-	rm -r ./my_offsets/minijava-examples-new/*.txt
-	rm -r ./my_offsets/minijava-examples-new/minijava-extra/*.txt
-	rm -r ./my_offsets/minijava-examples-new/bazio/*.out
-	rename 's/\.java/\.txt/' ./my_offsets/minijava-examples-new/*.java
-	rename 's/\.java/\.txt/' ./my_offsets/minijava-examples-new/minijava-extra/*.java
-	rename 's/\.java/\.out/' ./my_offsets/minijava-examples-new/bazio/*.java
+	# rm -r ./my_offsets/minijava-examples-new/*.out
+	# rm -r ./my_offsets/minijava-examples-new/minijava-extra/*.out
+	# rm -r ./my_offsets/minijava-examples-new/bazio/*.out
+
 
 clean:
 	rm -f *.class *~ JavaCharStream.java Mini* Token* ParseException.java
