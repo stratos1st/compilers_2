@@ -6,11 +6,11 @@ compile:
 	javac Main.java
 
 # runs all examples and grades them
-# run:
-# 	make compile
-# 	./script.sh | tee out.txt
-# 	./script1.sh
-# 	rm out.txt
+run:
+	make compile
+	./script.sh | tee out.txt
+	./script1.sh
+	rm out.txt
 
 clean:
 	rm -f *.class *~ JavaCharStream.java Mini* Token* ParseException.java
