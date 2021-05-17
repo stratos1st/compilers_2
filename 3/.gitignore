@@ -1,0 +1,14 @@
+*.class
+*~
+JavaCharStream.java
+Mini*
+Token*
+ParseException.java
+syntaxtree/*
+visitor/*
+my_ans/minijava-examples-new/*.out
+my_ans/minijava-examples-new/*.ll
+my_ans/minijava-examples-new/minijava-extra/*.out
+my_ans/minijava-examples-new/minijava-extra/*.ll
+my_ans/minijava-examples-new/codegen/*.out
+my_ans/minijava-examples-new/codegen/*.ll
