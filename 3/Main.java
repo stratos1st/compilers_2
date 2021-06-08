@@ -30,7 +30,7 @@ public class Main {
 				visitor2 eval2 = new visitor2();
 				root.accept(eval2, "main");
 
-				System.out.println(eval2.ans_str);
+				// System.out.println(eval2.ans_str);
 
 				try{
 					String file_name=args[i].substring(0, args[i].lastIndexOf('.'))+".ll";

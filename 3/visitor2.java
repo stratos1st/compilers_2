@@ -5,8 +5,8 @@ import visitor.GJDepthFirst;
 
 public class visitor2 extends GJDepthFirst<String, String> {
 
-	String ans_str="";
-	int curr_var_name=0, curr_tag_name=0;
+	String ans_str = "";
+	int curr_var_name = 0, curr_tag_name = 0;
 
 	//keeps all offsets
 	public static LinkedHashMap<String, LinkedHashMap<String, Pair<String, String>>> class_func_offsets = new LinkedHashMap<String, LinkedHashMap<String, Pair<String, String>>>();
